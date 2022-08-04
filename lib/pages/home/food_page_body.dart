@@ -5,6 +5,8 @@ import 'package:food_delivery/controllers/popular_product_controller.dart';
 import 'package:food_delivery/controllers/recommended_product_controller.dart';
 import 'package:food_delivery/dimensions.dart';
 import 'package:food_delivery/models/product_models.dart';
+import 'package:food_delivery/pages/food/popular_food_detail.dart';
+import 'package:food_delivery/routes/route_helper.dart';
 import 'package:food_delivery/widgets/app_column.dart';
 import 'package:food_delivery/widgets/big_text.dart';
 import 'package:food_delivery/widgets/icon_and_text.dart';
@@ -51,12 +53,13 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       GetBuilder<PopularProductController>(builder:(popularProducts){
         return popularProducts.isLoaded?Container(
           height: Dimensions.pageViewContainer,
-          child: PageView.builder(
-              controller: pageController,
-              itemCount: popularProducts.popularProductList.length,
-              itemBuilder: (context,position){
-                return _buildPageItem(position,popularProducts.popularProductList[position]);
-              }),
+            child: PageView.builder(
+                controller: pageController,
+                itemCount: popularProducts.popularProductList.length,
+                itemBuilder: (context,position){
+                  return _buildPageItem(position,popularProducts.popularProductList[position]);
+                }),
+
         ):CircularProgressIndicator(
           color: ConstantColor.mainColor,
         );
@@ -100,71 +103,78 @@ class _FoodPageBodyState extends State<FoodPageBody> {
             ],
           ),
         ),
+        //recommended food
         //list of food and images
            GetBuilder<RecommendedProductController>(builder:(recommendedProduct){
              return recommendedProduct.isLoaded?ListView.builder(
                  physics: const NeverScrollableScrollPhysics(),
                  shrinkWrap: true,
-                 itemCount: 10,
+                 itemCount: recommendedProduct.recommendedProductList.length,
                  itemBuilder: (context, index){
-                   return Container(
-                     margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                     child: Row(
-                       children: [
-                         //image section
-                         Container(
-                           height:120,
-                           width: 120,
-                           decoration: BoxDecoration(
-                             borderRadius: BorderRadius.circular(30),
-                             color: Colors.white38,
-                             image: const DecorationImage(
-                                 fit: BoxFit.cover,
-                                 image: AssetImage('images/image1.jpg')
-                             ),
-                           ),
-                         ),
-                         //text container
-                         Expanded(
-                           child: Container(
-                             height: 100,
-                             decoration: const BoxDecoration(
-                                 borderRadius: BorderRadius.only(
-                                   topRight: Radius.circular(20),
-                                   bottomRight: Radius.circular(20),
+                   return GestureDetector(
+                     onTap: (){
+                       Get.toNamed(RouteHelper.getRecommendedFood(index));
+                     },
+                     child: Container(
+                       margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                       child: Row(
+                         children: [
+                           //image section
+                           Container(
+                             height:120,
+                             width: 120,
+                             decoration: BoxDecoration(
+                               borderRadius: BorderRadius.circular(30),
+                               color: Colors.white38,
+                               image:  DecorationImage(
+                                   fit: BoxFit.cover,
+                                 image: NetworkImage(AppConstants.BASE_URL+AppConstants.UPLOADS_URL+recommendedProduct.recommendedProductList[index].img!
                                  ),
-                                 color: Colors.white
-                             ),
-                             child: Padding(
-                               padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
-                               child: Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                 children: [
-                                   BigText(text: 'Fascinating Japanese Cuisine'),
-                                   SizedBox(height: Dimensions.height10,),
-                                   SmallText(text: 'With Asian characteristics'),
-                                   SizedBox(height: Dimensions.height10,),
-                                   Row(
-                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                     children: const [
-                                       IconAndTextWidget(icon: Icons.circle_sharp,
-                                           text: 'Normal',
-                                           iconColor: ConstantColor.iconColor),
-                                       IconAndTextWidget(icon: Icons.location_on,
-                                           text: '1.7km',
-                                           iconColor: ConstantColor.mainColor),
-                                       IconAndTextWidget(icon: Icons.access_time_rounded ,
-                                           text: '32min',
-                                           iconColor: ConstantColor.appColor),
-                                     ],
-                                   ),
-
-                                 ],
                                ),
                              ),
                            ),
-                         ),
-                       ],
+                           //text container
+                           Expanded(
+                             child: Container(
+                               height: 100,
+                               decoration: const BoxDecoration(
+                                   borderRadius: BorderRadius.only(
+                                     topRight: Radius.circular(20),
+                                     bottomRight: Radius.circular(20),
+                                   ),
+                                   color: Colors.white
+                               ),
+                               child: Padding(
+                                 padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
+                                 child: Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                   children: [
+                                     BigText(text: recommendedProduct.recommendedProductList[index].name!),
+                                     SizedBox(height: Dimensions.height10,),
+                                     SmallText(text: 'With Asian characteristics'),
+                                     SizedBox(height: Dimensions.height10,),
+                                     Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: const [
+                                         IconAndTextWidget(icon: Icons.circle_sharp,
+                                             text: 'Normal',
+                                             iconColor: ConstantColor.iconColor),
+                                         IconAndTextWidget(icon: Icons.location_on,
+                                             text: '1.7km',
+                                             iconColor: ConstantColor.mainColor),
+                                         IconAndTextWidget(icon: Icons.access_time_rounded ,
+                                             text: '32min',
+                                             iconColor: ConstantColor.appColor),
+                                       ],
+                                     ),
+
+                                   ],
+                                 ),
+                               ),
+                             ),
+                           ),
+                         ],
+                       ),
                      ),
                    );
                  }):CircularProgressIndicator(
@@ -203,16 +213,21 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       transform: matrix,
       child: Stack(
         children: [
-          Container(
-            height: Dimensions.pageViewContainer,
-            margin: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius30),
-                image:  DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage('https://images.app.goo.gl/vWw8u6LNvLR96Khx7',
-                        ),
-                ),
+          GestureDetector(
+            onTap: (){
+              Get.toNamed(RouteHelper.getPopularFood(index));
+            },
+            child: Container(
+              height: Dimensions.pageViewContainer,
+              margin: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius30),
+                  image:  DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(AppConstants.BASE_URL+AppConstants.UPLOADS_URL+popularProduct.img!
+                          ),
+                  ),
+              ),
             ),
           ),
           // AppConstants.BASE_URL+"/uploads/"+popularProduct.img!

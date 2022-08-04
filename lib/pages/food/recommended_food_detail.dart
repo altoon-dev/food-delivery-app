@@ -1,4 +1,7 @@
-
+import 'package:food_delivery/constants/app_constants.dart';
+import 'package:food_delivery/controllers/recommended_product_controller.dart';
+import 'package:food_delivery/routes/route_helper.dart';
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constants/color_constants.dart';
 import 'package:food_delivery/dimensions.dart';
@@ -7,23 +10,31 @@ import 'package:food_delivery/widgets/app_icon.dart';
 import 'package:food_delivery/widgets/big_text.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
-  const RecommendedFoodDetail({Key? key}) : super(key: key);
+ final  int pageId;
+   const RecommendedFoodDetail({Key? key,
+  required this.pageId}) : super(key: key);
 
   final String longText = """Sense child do state to defer mr of forty. Become latter but nor abroad wisdom waited.Sense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waiteSense child do state to defer mr of forty. Become latter but nor abroad wisdom waite Was delivered gentleman acuteness but daughters. In as of whole as match asked. Pleasure exertion put add entrance distance drawings. In equally matters showing greatly it as. Want name any wise are able park when. Saw vicinity judgment remember finished men throwing. For norland produce age wishing. To figure on it spring season up. Her provision acuteness had excellent two why intention. As called mr needed praise at. Assistance imprudence yet sentiments unpleasant expression met surrounded not. Be at talked ye though secure nearer. She suspicion dejection saw instantly. Well deny may real one told yet saw hard dear. Bed chief house rapid right the. Set noisy one state tears which. No girl oh part must fact high my he. Simplicity in excellence melancholy as remarkably discovered. Own partiality motionless was old excellence she inquietude contrasted. Sister giving so wicket cousin of an he rather marked. Of on game part body rich. Adapted mr savings venture it or comfort affixed friends. Carried nothing on am warrant towards. Polite in of in oh needed itself silent course. Assistance travelling so especially do prosperous appearance mr no celebrated. Wanted easily in my called formed suffer. Songs hoped sense as taken ye mirth at. Believe fat how six drawing pursuit minutes far. Same do seen head am part it dear open to. Whatever may scarcely judgment had. Arrival entered an if drawing request. How daughters not promotion few knowledge contented. Yet winter law behind number stairs garret excuse. Minuter we natural conduct gravity if pointed oh no. Am immediate unwilling of attempted admitting disposing it. Handsome opinions on am at it ladyship. No in he real went find mr. Wandered or strictly raillery stanhill as. Jennings appetite disposed me an at subjects an. To no indulgence diminution so discovered mr apartments. Are off under folly death wrote cause her way spite. Plan upon yet way get cold spot its week. Almost do am or limits hearts. Resolve parties but why she shewing. She sang know now how nay cold real case.""";
 
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<RecommendedProductController>().recommendedProductList[pageId];
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             toolbarHeight: 70,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.clear),
+                GestureDetector(
+                    onTap:(){
+                      Get.toNamed(RouteHelper.getInitial());
+                    },
+                    child: AppIcon(icon: Icons.clear)),
                 AppIcon(icon: Icons.shopping_cart_outlined),
               ],
             ),
@@ -32,7 +43,7 @@ class RecommendedFoodDetail extends StatelessWidget {
               child: Container(
                 width: double.maxFinite,
                 padding: const EdgeInsets.only(top: 5,bottom: 10),
-                child: Center(child: BigText(size: Dimensions.font26,text: 'The Big Doner')),
+                child: Center(child: BigText(size: Dimensions.font26,text: product.name!)),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -47,8 +58,8 @@ class RecommendedFoodDetail extends StatelessWidget {
             backgroundColor: Colors.yellowAccent,
             expandedHeight: 250,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                'images/foodImage2.jpg',
+              background: Image.network(
+                AppConstants.BASE_URL+AppConstants.UPLOADS_URL+product.img!,
                 width: double.maxFinite,
                 fit: BoxFit.cover,
                 ),
@@ -58,7 +69,7 @@ class RecommendedFoodDetail extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  child: ExpandableText(text: longText),
+                  child: ExpandableText(text: product.description!),
                   margin: EdgeInsets.only(left: Dimensions.width20,right: Dimensions.width20),
                 )
               ],
@@ -85,7 +96,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                   backgroundColor: ConstantColor.mainColor,
                   iconSize: Dimensions.iconsize24,
                 ),
-                BigText(text: "\$36.96"+" X"+" 0",color: ConstantColor.blackColor,size: Dimensions.font26,),
+                BigText(text: "\$ ${product.price!}  X 0",color: ConstantColor.blackColor,size: Dimensions.font26,),
                 AppIcon(
                   iconColor: Colors.white,
                   icon: Icons.add,

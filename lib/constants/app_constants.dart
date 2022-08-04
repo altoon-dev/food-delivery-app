@@ -4,11 +4,13 @@ class AppConstants {
   static const String APP_NAME = "OrderFood";
   static const int APP_VERSION = 1;
 
-  static const String BASE_URL = "https://mvs.bslmeiyu.com";
+  static const String BASE_URL = "http://mvs.bslmeiyu.com";
 
   // static const String BASE_URL = "127.0.0.1:3000/";
   static const String POPULAR_PRODUCT_URI = "/api/v1/products/popular";
   static const String RECOMMENDED_PRODUCT_URI = "/api/v1/products/recommended";
+
+  static const String UPLOADS_URL ="/uploads/";
 
 
   static const String REGISTER_URL = "register";
