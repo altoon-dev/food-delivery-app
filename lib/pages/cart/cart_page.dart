@@ -4,6 +4,7 @@ import 'package:food_delivery/constants/app_constants.dart';
 import 'package:food_delivery/constants/color_constants.dart';
 import 'package:food_delivery/controllers/cart_controller.dart';
 import 'package:food_delivery/dimensions.dart';
+import 'package:food_delivery/routes/route_helper.dart';
 import 'package:food_delivery/widgets/app_icon.dart';
 import 'package:food_delivery/widgets/big_text.dart';
 import 'package:food_delivery/widgets/small_text.dart';
@@ -34,7 +35,7 @@ class CartPage extends StatelessWidget {
                   SizedBox(width: Dimensions.width20*5,),
                   GestureDetector(
                     onTap: (){
-                      Get.to(()=>MainFoodPage());
+                      Get.toNamed(RouteHelper.getInitial());
                     },
                     child: AppIcon(icon: Icons.home_outlined,
                       iconColor: Colors.white,
@@ -59,8 +60,9 @@ class CartPage extends StatelessWidget {
                   context: context,
                   removeTop: true,
                   child: GetBuilder<CartController>(builder: (CartController){
+                    var _cartList=CartController.getItems;
                     return ListView.builder(
-                        itemCount: CartController.getItems.length,
+                        itemCount: _cartList.length,
                         itemBuilder: (_,index){
                           return Container(
                             height: Dimensions.height20*5,
@@ -78,10 +80,9 @@ class CartPage extends StatelessWidget {
                                           fit: BoxFit.cover,
                                           image: NetworkImage(
                                             AppConstants.BASE_URL+AppConstants.UPLOADS_URL+CartController.getItems[index].img!
-                                          )
-                                      )
+                                          ),
+                                      ),
                                   ),
-
                                 ),
                                 SizedBox(width: Dimensions.width10,),
                                 Expanded(child: Container(
@@ -111,15 +112,16 @@ class CartPage extends StatelessWidget {
                                               children: [
                                                 GestureDetector(
                                                     onTap: (){
-                                                      //popularProduct.setQuantity(false);
+                                                      CartController.addItem(_cartList[index].product!,-1);
                                                     },
                                                     child: Icon(Icons.remove, color: ConstantColor.mainColor,)),
                                                 SizedBox(width: Dimensions.height(10) / 2,),
-                                                BigText(text:'0'), //popularProduct.inCartItems .toString()),
+                                                BigText(text:_cartList[index].quantity.toString()), //popularProduct.inCartItems .toString()),
                                                 SizedBox(width: Dimensions.height(10) / 2,),
                                                 GestureDetector(
                                                     onTap:(){
-                                                      // popularProduct.setQuantity(true);
+                                                      CartController.addItem(_cartList[index].product!, 1);
+
                                                     } ,
                                                     child: Icon(Icons.add, color: ConstantColor.mainColor,)),
                                               ],
@@ -139,8 +141,8 @@ class CartPage extends StatelessWidget {
                         );
                   })
                 ),
-
-          ))
+              ),
+          ),
         ],
       ),
     );
