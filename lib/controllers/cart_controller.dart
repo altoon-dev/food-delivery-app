@@ -6,17 +6,16 @@ import 'package:get/get.dart';
 import '../data/repository/cart_repo.dart';
 import '../models/cart_models.dart';
 
+//List<CartModel> storageItems=[];
+
 
 class CartController extends GetxController {
-  CartRepo cartRepo;
-
+  final CartRepo cartRepo;
   CartController({required this.cartRepo});
-
-  late Map<int, CartModel>_items = {};
-
+  Map<int, CartModel>_items = {};
   Map<int, CartModel> get items => _items;
+  //0, 1, 2..
 
-  List<CartModel> storageItems=[];
 
   void addItem(ProductModel product, int quantity) {
     int totalQuantity = 0;
@@ -89,5 +88,15 @@ class CartController extends GetxController {
       totalQuantity += value.quantity!;
     });
     return totalQuantity;
+  }
+
+  List<CartModel> get getItems{
+    //e below refers to both  int and CartModel
+    //get need to return something, now it's List
+    return _items.entries.map((e){
+      //second return is for map
+    return  e.value;
+
+    }).toList();
   }
 }

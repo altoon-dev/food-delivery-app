@@ -5,6 +5,8 @@ import 'package:food_delivery/data/repository/popular_product_repo.dart';
 import 'package:food_delivery/models/product_models.dart';
 import 'package:get/get.dart';
 
+import '../models/cart_models.dart';
+
 class PopularProductController extends GetxController {
   final PopularProductRepo popularProductRepo;
   PopularProductController({required this.popularProductRepo});
@@ -17,9 +19,7 @@ class PopularProductController extends GetxController {
   bool get isLoaded => _isLoaded;
 
   int _quantity=0;
-  int get quantity {
-    return _quantity;
-}
+  int get quantity => _quantity;
   int _inCartItems=0;
   int get inCartItems=>_inCartItems+_quantity;
 
@@ -39,8 +39,10 @@ class PopularProductController extends GetxController {
   void setQuantity(bool isIncrement){
     if(isIncrement){
       _quantity= checkQuantity(_quantity+1);
+     // print("number of items "+_quantity.toString());
     }else{
       _quantity= checkQuantity(_quantity-1);
+    //  print("number of items "+_quantity.toString());
 
     }
     update();
@@ -49,12 +51,18 @@ class PopularProductController extends GetxController {
     if((inCartItems+quantity)<0){
       Get.snackbar("Item count", "You can't reduce more!",
       backgroundColor: ConstantColor.mainColor,
-      colorText: Colors.white);
+      colorText: Colors.white
+      );
+      if(_inCartItems>0){
+        _quantity = -_inCartItems;
+        return _quantity;
+      }
       return 0;
     }else if((inCartItems+quantity)>20){
       Get.snackbar("Item count", "You can't get more!",
           backgroundColor: ConstantColor.mainColor,
-          colorText: Colors.white);
+          colorText: Colors.white
+      );
       return 20;
     }else{
       return quantity;
@@ -77,19 +85,26 @@ class PopularProductController extends GetxController {
 
   }
 
-  void addItem(ProductModel product){
-    //if(quantity>0){
-      _cart.addItem(product, _quantity);
-      _quantity=0;
-      _inCartItems=_cart.getQuantity(product);
-      _cart.items.forEach((key, value) {
-        print("The key is "+value.id.toString()+" The quantity is "+value.quantity.toString());
-      });
-    }
+  void addItem(ProductModel product) {
+    _cart.addItem(product, _quantity);
+    _quantity = 0;
+    _inCartItems = _cart.getQuantity(product);
+    _cart.items.forEach((key, value) {
+      print("The key is " + value.id.toString() + " The quantity is " +
+          value.quantity.toString());
+    });
+
+    update();
+  }
 
   int get totalItems{
     return _cart.totalItems;
   }
 
 
-    }
+  List<CartModel> get getItems{
+    //e below refers to both  int and CartModel
+    //get need to return something, now it's List
+    return _cart.getItems;
+}
+}
