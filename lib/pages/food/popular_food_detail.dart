@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constants/app_constants.dart';
 import 'package:food_delivery/constants/color_constants.dart';
+import 'package:food_delivery/controllers/cart_controller.dart';
 import 'package:food_delivery/controllers/popular_product_controller.dart';
 import 'package:food_delivery/pages/home/main_food_page.dart';
 import 'package:food_delivery/widgets/app_column.dart';
@@ -24,8 +25,7 @@ class PopularFoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var product = Get.find<PopularProductController>().popularProductList[pageId];
-    // print('page is id'+pageId.toString());
-    // print('product name is'+product.name.toString());
+    Get.find<PopularProductController>().initProduct(product,Get.find<CartController>());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -136,7 +136,7 @@ class PopularFoodDetail extends StatelessWidget {
                           },
                         child: Icon(Icons.remove, color: ConstantColor.mainColor,)),
                     SizedBox(width: Dimensions.height(10) / 2,),
-                    BigText(text: popularProduct.quantity.toString()),
+                    BigText(text: popularProduct.inCartItems .toString()),
                     SizedBox(width: Dimensions.height(10) / 2,),
                     GestureDetector(
                         onTap:(){
@@ -157,9 +157,14 @@ class PopularFoodDetail extends StatelessWidget {
                   color: ConstantColor.mainColor,
                   borderRadius: BorderRadius.circular(Dimensions.radius(20)),
                 ),
-                child: BigText(
-                  text: "\$ ${product.price!} | Add to cart",
-                  color: Colors.white,
+                child: GestureDetector(
+                  onTap: (){
+                    popularProduct.addItem(product);
+                  },
+                  child: BigText(
+                    text: "\$ ${product.price!} | Add to cart",
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
