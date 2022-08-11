@@ -21,9 +21,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  get: ^4.1.4
+  get: ^4.6.5
   dots_indicator: ^2.1.0
-  persistent_bottom_nav_bar: ^4.0.2
+  persistent_bottom_nav_bar_v2: ^4.2.4
+
 
 
 

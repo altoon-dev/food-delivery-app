@@ -8,7 +8,6 @@ import 'package:food_delivery/pages/splash/splash_dart.dart';
 import 'package:food_delivery/routes/route_helper.dart';
 import 'package:get/get.dart';
 import 'package:food_delivery/helper/dependencies.dart' as dep;
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dep.init();
