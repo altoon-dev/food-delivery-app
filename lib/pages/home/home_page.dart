@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/constants/color_constants.dart';
+import 'package:food_delivery_app/pages/cart/cart_history.dart';
 import 'package:food_delivery_app/pages/home/main_food_page.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
@@ -67,15 +68,9 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _buildScreens() {
     return [
       MainFoodPage(),
-      Container(
-        child: Text("Next Page"),
-      ),
-      Container(
-        child: Text("Next Page"),
-      ),
-      Container(
-        child: Text("Next Page"),
-      ),
+      Container(child: Text("Next Page"),),
+      CartHistory(),
+      Container(child: Text("Next Page"),),
     ];
   }
 
