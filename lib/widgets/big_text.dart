@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/dimensions.dart';
-
+import 'package:food_delivery_app/dimensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BigText extends StatelessWidget {
-  Color? color;
+  final Color color;
   final String text;
-  double size;
-  TextOverflow overFlow;
+  final double size;
+  final TextOverflow overflow;
 
-  BigText({Key? key,this.color = const Color(0xFF323d2b),
-    this.size=0,
+  const BigText({
+    Key? key,
+    this.color = const Color(0xFF332d2b),
     required this.text,
-    this.overFlow=TextOverflow.ellipsis}) : super(key: key);
-
+    this.overflow = TextOverflow.ellipsis,
+    this.size = 0
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       maxLines: 1,
-      overflow: overFlow,
-      style: TextStyle(
-        fontWeight: FontWeight.w400,
-        fontFamily: 'Roboto',
+      overflow: overflow,
+      style: GoogleFonts.roboto(
         color: color,
-        fontSize: size==0?Dimensions.font20:size,
+        fontWeight: FontWeight.w400,
+        fontSize: size == 0 ? Dimensions.font(20) : size,
       ),
-    ) ;
+    );
   }
 }

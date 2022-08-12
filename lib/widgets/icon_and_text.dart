@@ -1,22 +1,29 @@
 import 'package:flutter/cupertino.dart';
-import 'package:food_delivery/widgets/small_text.dart';
+
+import 'package:flutter/material.dart';
+import 'package:food_delivery_app/widgets/small_text.dart';
+
+import '../dimensions.dart';
 
 class IconAndTextWidget extends StatelessWidget {
   final IconData icon;
-  final String text;
   final Color iconColor;
-  const IconAndTextWidget({Key? key, required this.icon,
+  final String text;
+
+  const IconAndTextWidget({
+    Key? key,
+    required this.icon,
     required this.text,
-    required this.iconColor
+    required this.iconColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: iconColor,),
+        Icon(icon, color: iconColor, size: Dimensions.height(24),),
         const SizedBox(width: 5,),
-        SmallText(text: text,),
+        SmallText(text: text),
       ],
     );
   }
