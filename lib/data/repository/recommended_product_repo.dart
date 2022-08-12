@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/constants/app_constants.dart';
-import 'package:food_delivery/data/api/api_client.dart';
 import 'package:get/get.dart';
 
+import '../../constants/app_constants.dart';
+import '../api/api_client.dart';
+
 class RecommendedProductRepo extends GetxService {
-  final ApiClient apiClient;
+  final APIClient apiClient;
 
   RecommendedProductRepo({required this.apiClient});
 

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/constants/color_constants.dart';
-import 'package:food_delivery/dimensions.dart';
-import 'package:food_delivery/widgets/big_text.dart';
-import 'package:food_delivery/widgets/small_text.dart';
-
+import 'package:food_delivery_app/constants/color_constants.dart';
+import 'package:food_delivery_app/dimensions.dart';
+import 'package:food_delivery_app/widgets/big_text.dart';
+import 'package:food_delivery_app/widgets/small_text.dart';
 import 'icon_and_text.dart';
+
 
 class AppColumn extends StatelessWidget {
   final String text;
-  const AppColumn({Key? key,
-    required this.text
+
+  const AppColumn({
+    Key? key,
+    required this.text,
   }) : super(key: key);
 
   @override
@@ -17,34 +19,38 @@ class AppColumn extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        BigText(text:text, size: Dimensions.font26,),
-        SizedBox(height: Dimensions.height10,),
+        BigText(text: text, size: Dimensions.font(26),),
+        SizedBox(height: Dimensions.height(10),),
         Row(
           children: [
             Wrap(
-              children: List.generate(5, (index) {return const Icon(Icons.star, color: ConstantColor.mainColor, size: 15,);}),
+              children: List.generate(5, (index) => Icon(Icons.star, color: AppColors.mainColor, size: Dimensions.height(15),)),
             ),
-            const SizedBox(width: 10,),
-            SmallText(text: '4.5'),
-            const SizedBox(width: 10,),
-            SmallText(text: '1287'),
-            const SizedBox(width: 10,),
-            SmallText(text: 'comments')
+            SizedBox(width: Dimensions.width(10),),
+            const SmallText(text: "4.5"),
+            SizedBox(width: Dimensions.width(10),),
+            const SmallText(text: "1023 comments"),
           ],
         ),
-        SizedBox(height: Dimensions.height20,),
+        SizedBox(height: Dimensions.height(15),),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const [
-            IconAndTextWidget(icon: Icons.circle_sharp,
-                text: 'Normal',
-                iconColor: ConstantColor.iconColor),
-            IconAndTextWidget(icon: Icons.location_on,
-                text: '1.7km',
-                iconColor: ConstantColor.mainColor),
-            IconAndTextWidget(icon: Icons.access_time_rounded ,
-                text: '32min',
-                iconColor: ConstantColor.appColor),
+            IconAndTextWidget(
+              icon: Icons.circle,
+              text: "Normal",
+              iconColor: AppColors.iconColor1,
+            ),
+            IconAndTextWidget(
+              icon: Icons.location_on,
+              text: "1.7km",
+              iconColor: AppColors.mainColor,
+            ),
+            IconAndTextWidget(
+              icon: Icons.access_time_rounded,
+              text: "32min",
+              iconColor: AppColors.iconColor2,
+            ),
           ],
         ),
       ],
